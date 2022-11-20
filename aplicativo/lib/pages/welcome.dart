@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:aplicativo/pages/dashboard.dart';
 
 class Welcome extends StatefulWidget {
+  const Welcome({super.key});
+
   @override
   _WelcomeState createState() => _WelcomeState();
 }
@@ -13,7 +15,7 @@ class _WelcomeState extends State<Welcome> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
           child: Container(
-        padding: EdgeInsets.fromLTRB(25, 100, 25, 25),
+        padding: const EdgeInsets.fromLTRB(25, 100, 25, 25),
         child: Center(
             child: Column(
           children: <Widget>[
@@ -21,13 +23,13 @@ class _WelcomeState extends State<Welcome> {
               'assets/img/illustration.png',
               width: 300,
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 50),
             ),
             Text(
               'Seu Aplicativo',
               style: TextStyle(
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -41,7 +43,7 @@ class _WelcomeState extends State<Welcome> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 50),
             ),
             MaterialButton(
@@ -49,26 +51,26 @@ class _WelcomeState extends State<Welcome> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Dashboard(),
+                    builder: (context) => const Dashboard(),
                   ),
                 );
               },
               minWidth: double.infinity,
               height: 50,
-              child: Text('Iniciar'.toUpperCase()),
               color: Theme.of(context).primaryColor,
               textColor: Colors.white,
+              child: Text('Iniciar'.toUpperCase()),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 10),
             ),
             MaterialButton(
               onPressed: () {},
               minWidth: double.infinity,
               height: 50,
-              child: Text('Criar conta'.toUpperCase()),
               color: Theme.of(context).primaryColor,
               textColor: Colors.white,
+              child: Text('Criar conta'.toUpperCase()),
             ),
           ],
         )),

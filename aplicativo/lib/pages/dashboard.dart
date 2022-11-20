@@ -3,6 +3,8 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class Dashboard extends StatefulWidget {
+  const Dashboard({super.key});
+
   @override
   _DashBoardState createState() => _DashBoardState();
 }
@@ -36,14 +38,14 @@ class _DashBoardState extends State<Dashboard> {
                 Text(
                   'Joao',
                   style: TextStyle(
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
                   'Sep, 23, 2022',
                   style: TextStyle(
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 12,
                       fontWeight: FontWeight.bold),
                 )
@@ -58,8 +60,8 @@ class _DashBoardState extends State<Dashboard> {
               children: <Widget>[
                 Container(
                   width: 50,
+                  color: Theme.of(context).colorScheme.secondary,
                   child: const Icon(Icons.notifications),
-                  color: Theme.of(context).accentColor,
                 ),
                 Positioned(
                   top: 0,
@@ -92,7 +94,7 @@ class _DashBoardState extends State<Dashboard> {
       body: SingleChildScrollView(
           child: Padding(
         padding: const EdgeInsets.fromLTRB(25, 30, 25, 25),
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: <Widget>[
@@ -148,7 +150,7 @@ class _DashBoardState extends State<Dashboard> {
                       percent: 0.7,
                       linearStrokeCap: LinearStrokeCap.roundAll,
                       backgroundColor:
-                          Theme.of(context).accentColor.withAlpha(30),
+                          Theme.of(context).colorScheme.secondary.withAlpha(30),
                       progressColor: Theme.of(context).primaryColor,
                     ),
                     const Padding(
@@ -157,7 +159,7 @@ class _DashBoardState extends State<Dashboard> {
                     Text(
                       'Total de passos'.toUpperCase(),
                       style: TextStyle(
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontFamily: 'Bebas',
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -166,7 +168,7 @@ class _DashBoardState extends State<Dashboard> {
                     Text(
                       'Caminhou durante 13000 minutos hoje',
                       style: TextStyle(
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: 16,
                       ),
                     ),
@@ -177,119 +179,120 @@ class _DashBoardState extends State<Dashboard> {
                 height: 25,
                 color: Colors.grey[300],
               ),
-              Container(
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'DISTANCIA',
-                            style: TextStyle(
-                              color: Theme.of(context).accentColor,
-                              fontWeight: FontWeight.bold,
-                            ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'DISTANCIA',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontWeight: FontWeight.bold,
                           ),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                    text: '9999',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Theme.of(context).accentColor,
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                                const TextSpan(
-                                  text: ' M',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'CALORIAS',
-                            style: TextStyle(
-                              color: Theme.of(context).accentColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: '2',
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                  text: '9999',
                                   style: TextStyle(
                                     fontSize: 20,
-                                    color: Theme.of(context).accentColor,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                     fontWeight: FontWeight.bold,
-                                  ),
+                                  )),
+                              const TextSpan(
+                                text: ' M',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                const TextSpan(
-                                  text: ' CAL',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'BATIMENTO CARDIACO',
-                            style: TextStyle(
-                              color: Theme.of(context).accentColor,
-                              fontWeight: FontWeight.bold,
-                            ),
+                              ),
+                            ],
                           ),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                    text: '300',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Theme.of(context).accentColor,
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                                const TextSpan(
-                                  text: ' BPM',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'CALORIAS',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '2',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const TextSpan(
+                                text: ' CAL',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'BATIMENTO CARDIACO',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                  text: '300',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                              const TextSpan(
+                                text: ' BPM',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              Divider(
+              const Divider(
                 height: 25,
                 color: Colors.grey,
               ),
@@ -299,7 +302,7 @@ class _DashBoardState extends State<Dashboard> {
                   Text(
                     'PROGRESSO',
                     style: TextStyle(
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 24,
                       fontFamily: 'Bebas',
                       fontWeight: FontWeight.bold,
@@ -327,7 +330,7 @@ class _DashBoardState extends State<Dashboard> {
               ),
               Container(
                 height: 255,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: ListView(
                   physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
@@ -413,7 +416,7 @@ class StatCard extends StatelessWidget {
               Text(
                 title.toUpperCase(),
                 style: TextStyle(
-                  color: Theme.of(context).accentColor.withAlpha(100),
+                  color: Theme.of(context).colorScheme.secondary.withAlpha(100),
                   fontSize: 14,
                 ),
               ),
@@ -446,7 +449,7 @@ class StatCard extends StatelessWidget {
                   text: alcance.toString(),
                   style: TextStyle(
                     fontSize: 20,
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
                 TextSpan(
