@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aplicativo/pages/dashboard.dart';
+import 'login/login.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({super.key});
@@ -65,7 +66,14 @@ class _WelcomeState extends State<Welcome> {
               padding: EdgeInsets.only(top: 10),
             ),
             MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login(),
+                  ),
+                );
+              },
               minWidth: double.infinity,
               height: 50,
               color: Theme.of(context).primaryColor,
