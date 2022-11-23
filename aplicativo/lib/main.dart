@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aplicativo/pages/welcome.dart';
 
-//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 void main() {
   runApp(const MyApp());
 }
