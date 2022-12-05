@@ -1,6 +1,8 @@
 import 'package:aplicativo/model/user_manager.dart';
 import 'package:aplicativo/pages/base/base_screen.dart';
 import 'package:aplicativo/pages/cadastro/cadastro.dart';
+import 'package:aplicativo/pages/login/login.dart';
+import 'package:aplicativo/pages/splash/splashlogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -40,12 +42,16 @@ class MyApp extends StatelessWidget {
           appBarTheme: const AppBarTheme(
             elevation: 0,
           ),
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.brown)
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
               .copyWith(secondary: const Color.fromARGB(255, 0, 0, 0)),
         ),
-        initialRoute: '/base',
+        initialRoute: '/splash',
         onGenerateRoute: (settings) {
           switch (settings.name) {
+            case '/login':
+              return MaterialPageRoute(builder: (_) => Login());
+            case '/splash':
+              return MaterialPageRoute(builder: (_) => Splash1());
             case '/signup':
               return MaterialPageRoute(builder: (_) => Cadastro());
             case '/base':

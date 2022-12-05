@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserManager extends ChangeNotifier {
   UserManager() {
-    _loadCurrentUser();
+    loadCurrentUser();
   }
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -29,7 +29,7 @@ class UserManager extends ChangeNotifier {
       final UserCredential result = await auth.signInWithEmailAndPassword(
           email: user.email, password: user.password);
 
-      await _loadCurrentUser(user: result.user);
+      await loadCurrentUser(user: result.user);
 
       onSuccess();
     } on FirebaseAuthException catch (error) {
@@ -43,15 +43,27 @@ class UserManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _loadCurrentUser({User? user}) async {
+  Future<void> loadCurrentUser({User? user}) async {
     final User currentUser = user ?? auth.currentUser!;
-    if (currentUser != null) {
-      final DocumentSnapshot docUser =
-          await firestore.collection('users').doc(currentUser.uid).get();
-      usuarioAtual = Usuario.fromDocument(docUser);
-      print(usuarioAtual.name);
-      notifyListeners();
-    }
+    // if (currentUser != null) {
+    //   final DocumentSnapshot docUser =
+    //       await firestore.collection('users').doc(currentUser.uid).get();
+    //   usuarioAtual = Usuario.fromDocument(docUser);
+    //   print(usuarioAtual.name);
+    //   notifyListeners();
+    // }
+    firestore
+        .collection('users')
+        .doc(currentUser.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        var data = documentSnapshot.data() as Map;
+        print(data['name']);
+      } else {
+        print('Document does not exist on the database');
+      }
+    });
   }
 
   Future<void> signUp(

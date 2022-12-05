@@ -110,6 +110,8 @@ class Login extends StatelessWidget {
                                                 password: passController.text,
                                                 name: '',
                                                 confirmPassword: ''));
+                                        Navigator.of(context)
+                                            .pushNamed('/splash');
                                       });
                                 }
                               },
