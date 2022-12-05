@@ -112,7 +112,7 @@ class Cadastro extends StatelessWidget {
                       context.read<UserManager>().signUp(
                             user: usuarioCadastro,
                             onSuccess: () {
-                              Navigator.of(context).pushNamed('/login');
+                              Navigator.of(context).pushNamed('/splash');
                             },
                             onFail: (e) {
                               ScaffoldMessenger.of(context)

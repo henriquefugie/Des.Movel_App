@@ -1,6 +1,15 @@
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../common/custom_drawer/custom_drawer.dart';
+
+int passos = 0;
+int pedometer = 0;
+int total = 0;
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -9,87 +18,29 @@ class Dashboard extends StatefulWidget {
   _DashBoardState createState() => _DashBoardState();
 }
 
+Future<int>? loadCounter() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String username = prefs.getString('userdata') ?? "";
+  print(username);
+  Map<String, dynamic> decodedMap = json.decode(username);
+  print(passos);
+  return decodedMap['passos'];
+}
+
 class _DashBoardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
+    loadCounter()?.then((path) {
+      passos = path;
+    });
+    print(passos);
+    print(pedometer);
+    total = passos + pedometer;
+    print(total);
     return Scaffold(
-      backgroundColor: Colors.white,
+      drawer: const CustomDrawer(),
       appBar: AppBar(
-        elevation: 0,
-        titleSpacing: 10,
-        backgroundColor: Colors.white,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              width: 50,
-              height: 50,
-              margin: const EdgeInsets.only(right: 10),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Image.network(
-                    'https://cdn.jornaldebrasilia.com.br/wp-content/uploads/2022/08/26094036/5555E820-01D0-4475-AFCF-4765925B4873-1024x683.jpeg'),
-              ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Joao',
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'Sep, 23, 2022',
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-          ],
-        ),
-        actions: <Widget>[
-          FloatingActionButton(
-            onPressed: () {},
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  width: 50,
-                  color: Theme.of(context).colorScheme.secondary,
-                  child: const Icon(Icons.notifications),
-                ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  width: 20,
-                  height: 20,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: Colors.red,
-                    ),
-                    width: 20,
-                    height: 20,
-                    child: const Center(
-                      child: Text(
-                        '99',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 9,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+        title: const Text('Dashboard'),
       ),
       body: SingleChildScrollView(
           child: Padding(
@@ -115,7 +66,7 @@ class _DashBoardState extends State<Dashboard> {
                 padding: EdgeInsets.only(top: 30),
               ),
               Text(
-                '6522',
+                '$total',
                 style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontSize: 80,

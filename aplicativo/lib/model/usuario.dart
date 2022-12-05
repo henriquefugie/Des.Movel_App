@@ -26,8 +26,9 @@ class Usuario {
 
   Map<String, dynamic> toJson() => {
         'email': email,
+        'password': password,
         'name': name,
-        'passos': passos,
+        'passos': passos ?? 0,
       };
 
   Usuario.fromJson(Map<String, dynamic> json) {

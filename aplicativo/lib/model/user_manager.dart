@@ -44,14 +44,8 @@ class UserManager extends ChangeNotifier {
   }
 
   Future<void> loadCurrentUser({User? user}) async {
+    final prefs = await SharedPreferences.getInstance();
     final User currentUser = user ?? auth.currentUser!;
-    // if (currentUser != null) {
-    //   final DocumentSnapshot docUser =
-    //       await firestore.collection('users').doc(currentUser.uid).get();
-    //   usuarioAtual = Usuario.fromDocument(docUser);
-    //   print(usuarioAtual.name);
-    //   notifyListeners();
-    // }
     firestore
         .collection('users')
         .doc(currentUser.uid)
@@ -59,7 +53,13 @@ class UserManager extends ChangeNotifier {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         var data = documentSnapshot.data() as Map;
-        print(data['name']);
+        Usuario user = Usuario(
+          email: data['email'],
+          password: data["password"],
+          name: data['name'],
+          passos: data['passos'],
+        );
+        storedata(user1: user);
       } else {
         print('Document does not exist on the database');
       }
@@ -77,7 +77,7 @@ class UserManager extends ChangeNotifier {
 
       user.id = result.user!.uid;
       usuarioAtual = user;
-
+      storedata(user1: user);
       await user.saveData();
 
       onSuccess();
@@ -90,13 +90,13 @@ class UserManager extends ChangeNotifier {
   Future<void> storedata({required Usuario user1}) async {
     final prefs = await SharedPreferences.getInstance();
     Usuario user = Usuario(
-        email: user1.email,
-        password: user1.password,
-        name: user1.name,
-        confirmPassword: user1.confirmPassword);
+      email: user1.email,
+      password: user1.password,
+      name: user1.name,
+      passos: user1.passos,
+    );
 
     String userdata = json.encode(user);
-
     prefs.setString('userdata', userdata);
   }
 

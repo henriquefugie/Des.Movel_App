@@ -104,12 +104,6 @@ class Login extends StatelessWidget {
                                         ));
                                       },
                                       onSuccess: () {
-                                        userManager.storedata(
-                                            user1: Usuario(
-                                                email: emailController.text,
-                                                password: passController.text,
-                                                name: '',
-                                                confirmPassword: ''));
                                         Navigator.of(context)
                                             .pushNamed('/splash');
                                       });

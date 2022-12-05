@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:aplicativo/pages/dashboard.dart';
+import 'package:aplicativo/pages/dashboard/dashboard.dart';
 import 'login/login.dart';
 
 class Welcome extends StatefulWidget {

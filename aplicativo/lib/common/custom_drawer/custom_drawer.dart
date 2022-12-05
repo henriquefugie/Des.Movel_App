@@ -12,24 +12,22 @@ class CustomDrawer extends StatelessWidget {
         children: const <Widget>[
           CustomDrawerHeader(),
           DrawerTile(
-            iconData: Icons.home,
-            title: 'Inicio',
+            iconData: Icons.dashboard,
+            title: 'Dashboard',
             page: 0,
           ),
           DrawerTile(
-            iconData: Icons.list,
-            title: 'Produtos',
+            iconData: Icons.add_link_rounded,
+            title: 'Pedometro',
             page: 1,
           ),
-          DrawerTile(
-            iconData: Icons.playlist_add_check,
-            title: 'Meus Pedidos',
-            page: 2,
+          SizedBox(
+            height: 300,
           ),
           DrawerTile(
-            iconData: Icons.location_on,
-            title: 'Lojas',
-            page: 3,
+            iconData: Icons.settings,
+            title: 'Configuracoes',
+            page: 2,
           ),
         ],
       ),

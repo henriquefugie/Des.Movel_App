@@ -1,7 +1,14 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+final FirebaseAuth auth = FirebaseAuth.instance;
+final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class Splash1 extends StatefulWidget {
   @override
@@ -11,19 +18,29 @@ class Splash1 extends StatefulWidget {
 class _Splash1State extends State<Splash1> {
   Future checkingTheSavedData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var username = prefs.getString('email');
-    print(username);
-    if (username == null) {
-      Navigator.of(context).pushNamed('/login');
-    } else {
-      Navigator.of(context).pushNamed('/base');
-    }
+    final User? currentUser = auth.currentUser;
+    firestore
+        .collection('users')
+        .doc(currentUser?.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        String username = prefs.getString('userdata') ?? "";
+        print(username);
+        if (username.isNotEmpty) {
+          Navigator.of(context).pushNamed('/base');
+        } else {
+          Navigator.of(context).pushNamed('/login');
+        }
+      } else {
+        Navigator.of(context).pushNamed('/login');
+      }
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    checkingTheSavedData();
 
     //espera 3 segundos do splash
     Future.delayed(const Duration(seconds: 4)).then((_) {
