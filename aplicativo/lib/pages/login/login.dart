@@ -16,6 +16,7 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Entrar'),
         centerTitle: true,
         actions: <Widget>[
@@ -70,15 +71,6 @@ class Login extends StatelessWidget {
 
                         return null;
                       },
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                          ),
-                          child: const Text('Esqueci minha senha')),
                     ),
                     const SizedBox(
                       height: 16,

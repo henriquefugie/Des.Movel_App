@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   Future<Object> requestPermission() async {
-    print("FLAMENGO");
     PermissionStatus result;
     if (Platform.isAndroid) {
       result = await Permission.activityRecognition.request();

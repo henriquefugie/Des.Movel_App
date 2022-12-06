@@ -16,18 +16,13 @@ class CustomDrawer extends StatelessWidget {
             title: 'Dashboard',
             page: 0,
           ),
-          DrawerTile(
-            iconData: Icons.add_link_rounded,
-            title: 'Pedometro',
-            page: 1,
-          ),
           SizedBox(
-            height: 300,
+            height: 450,
           ),
           DrawerTile(
-            iconData: Icons.settings,
-            title: 'Configuracoes',
-            page: 2,
+            iconData: Icons.logout,
+            title: 'Log out',
+            page: 1,
           ),
         ],
       ),

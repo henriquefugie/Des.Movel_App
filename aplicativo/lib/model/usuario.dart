@@ -5,7 +5,7 @@ class Usuario {
   late String email;
   late String password;
   String? name;
-  int? passos;
+  String? passos;
 
   String? confirmPassword;
 

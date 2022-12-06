@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:aplicativo/controller/firebase_errors.dart';
 import 'package:aplicativo/model/usuario.dart';
+import 'package:aplicativo/pages/logout/logout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,7 +29,6 @@ class UserManager extends ChangeNotifier {
     try {
       final UserCredential result = await auth.signInWithEmailAndPassword(
           email: user.email, password: user.password);
-
       await loadCurrentUser(user: result.user);
 
       onSuccess();
@@ -105,5 +105,17 @@ class UserManager extends ChangeNotifier {
     user.id = cadastro.id;
     final data = user.toJson();
     cadastro.set(data);
+  }
+
+  Future<void> logout(
+      {required Function onFail, required Function onSuccess}) async {
+    try {
+      await auth.signOut();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+      onSuccess();
+    } on PlatformException catch (error) {
+      onFail(verifyErroCode(error.code));
+    }
   }
 }

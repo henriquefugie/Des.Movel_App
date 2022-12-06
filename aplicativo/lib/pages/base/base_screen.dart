@@ -1,5 +1,6 @@
 import 'package:aplicativo/controller/pedrometro.dart';
 import 'package:aplicativo/model/page_manager.dart';
+import 'package:aplicativo/pages/logout/logout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../common/custom_drawer/custom_drawer.dart';
@@ -20,13 +21,7 @@ class BaseScreen extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
           const Dashboard(),
-          Pedometro(),
-          Scaffold(
-            drawer: const CustomDrawer(),
-            appBar: AppBar(
-              title: const Text('Configuracoes'),
-            ),
-          ),
+          Logout(),
         ],
       ),
     );

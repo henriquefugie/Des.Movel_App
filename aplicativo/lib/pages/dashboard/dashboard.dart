@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:aplicativo/model/user_manager.dart';
+import 'package:aplicativo/model/usuario.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -12,6 +16,15 @@ int passos = 0;
 int pedometer = 0;
 int total = 0;
 
+final FirebaseAuth auth = FirebaseAuth.instance;
+final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+void updatePassos(String passos) {
+  final User currentUser = auth.currentUser!;
+  final docUser = firestore.collection('users').doc(currentUser.uid);
+  docUser.update({'passos': passos});
+}
+
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
 
@@ -21,10 +34,32 @@ class Dashboard extends StatefulWidget {
 
 Future<int>? loadCounter() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  final User currentUser = auth.currentUser!;
+  (currentUser.uid);
+  final docUser = firestore.collection('users').doc(currentUser.uid);
+  firestore
+      .collection('users')
+      .doc(currentUser.uid)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    if (documentSnapshot.exists) {
+      var data = documentSnapshot.data() as Map;
+      Usuario user = Usuario(
+        email: data['email'],
+        password: data["password"],
+        name: data['name'],
+        passos: data['passos'],
+      );
+      String userdata = json.encode(user);
+      prefs.setString('userdata', userdata);
+    } else {
+      ('Document does not exist on the database');
+    }
+  });
+
   String username = prefs.getString('userdata') ?? "";
-  print(username);
+  (username);
   Map<String, dynamic> decodedMap = json.decode(username);
-  print(passos);
   return decodedMap['passos'];
 }
 
@@ -40,33 +75,34 @@ class _DashBoardState extends State<Dashboard> {
   }
 
   void teste(StepCount event) {
-    print(event.steps);
+    (event.steps);
   }
 
   void onStepCount(StepCount event) {
-    print(event);
+    (event);
+    updatePassos(event.steps.toString());
     setState(() {
       _steps = event.steps.toString();
     });
   }
 
   void onPedestrianStatusChanged(PedestrianStatus event) {
-    print(event);
+    (event);
     setState(() {
       _status = event.status;
     });
   }
 
   void onPedestrianStatusError(error) {
-    print('onPedestrianStatusError: $error');
+    ('onPedestrianStatusError: $error');
     setState(() {
       _status = 'Pedestrian Status not available';
     });
-    print(_status);
+    (_status);
   }
 
   void onStepCountError(error) {
-    print('onStepCountError: $error');
+    ('onStepCountError: $error');
     setState(() {
       _steps = 'Step Count not available';
     });
@@ -89,19 +125,19 @@ class _DashBoardState extends State<Dashboard> {
     loadCounter()?.then((path) {
       passos = path;
     });
-    print(passos);
-    print(pedometer);
+    (passos);
+    (pedometer);
     total = passos + pedometer;
     double porcentagemPassos = (int.parse(_steps)) / 9000;
     double calorias = (int.parse(_steps)) * 0.03;
     double distancia = (int.parse(_steps)) * 0.3;
     var caloriasString = calorias.toStringAsFixed(1);
     var distanciaString = distancia.toStringAsFixed(1);
-    print(porcentagemPassos);
+    (porcentagemPassos);
     if (porcentagemPassos > 1) {
       porcentagemPassos = 0;
     }
-    print(total);
+    (total);
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: AppBar(
