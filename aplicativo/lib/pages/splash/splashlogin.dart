@@ -26,7 +26,6 @@ class _Splash1State extends State<Splash1> {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         String username = prefs.getString('userdata') ?? "";
-        print(username);
         if (username.isNotEmpty) {
           Navigator.of(context).pushNamed('/base');
         } else {
