@@ -29,6 +29,10 @@ class _PedometroState extends State<Pedometro> {
     initPlatformState();
   }
 
+  void teste(StepCount event) {
+    print(event.steps);
+  }
+
   void onStepCount(StepCount event) {
     print(event);
     setState(() {

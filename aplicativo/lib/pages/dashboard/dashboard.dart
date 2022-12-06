@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:pedometer/pedometer.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +29,61 @@ Future<int>? loadCounter() async {
 }
 
 class _DashBoardState extends State<Dashboard> {
+  late Stream<StepCount> _stepCountStream;
+  late Stream<PedestrianStatus> _pedestrianStatusStream;
+  String _status = '', _steps = '';
+
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  void teste(StepCount event) {
+    print(event.steps);
+  }
+
+  void onStepCount(StepCount event) {
+    print(event);
+    setState(() {
+      _steps = event.steps.toString();
+    });
+  }
+
+  void onPedestrianStatusChanged(PedestrianStatus event) {
+    print(event);
+    setState(() {
+      _status = event.status;
+    });
+  }
+
+  void onPedestrianStatusError(error) {
+    print('onPedestrianStatusError: $error');
+    setState(() {
+      _status = 'Pedestrian Status not available';
+    });
+    print(_status);
+  }
+
+  void onStepCountError(error) {
+    print('onStepCountError: $error');
+    setState(() {
+      _steps = 'Step Count not available';
+    });
+  }
+
+  void initPlatformState() {
+    _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
+    _pedestrianStatusStream
+        .listen(onPedestrianStatusChanged)
+        .onError(onPedestrianStatusError);
+
+    _stepCountStream = Pedometer.stepCountStream;
+    _stepCountStream.listen(onStepCount).onError(onStepCountError);
+
+    if (!mounted) return;
+  }
+
   @override
   Widget build(BuildContext context) {
     loadCounter()?.then((path) {
@@ -36,6 +92,15 @@ class _DashBoardState extends State<Dashboard> {
     print(passos);
     print(pedometer);
     total = passos + pedometer;
+    double porcentagemPassos = (int.parse(_steps)) / 9000;
+    double calorias = (int.parse(_steps)) * 0.03;
+    double distancia = (int.parse(_steps)) * 0.3;
+    var caloriasString = calorias.toStringAsFixed(1);
+    var distanciaString = distancia.toStringAsFixed(1);
+    print(porcentagemPassos);
+    if (porcentagemPassos > 1) {
+      porcentagemPassos = 0;
+    }
     print(total);
     return Scaffold(
       drawer: const CustomDrawer(),
@@ -66,7 +131,7 @@ class _DashBoardState extends State<Dashboard> {
                 padding: EdgeInsets.only(top: 30),
               ),
               Text(
-                '$total',
+                _steps,
                 style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontSize: 80,
@@ -98,7 +163,7 @@ class _DashBoardState extends State<Dashboard> {
                     ),
                     LinearPercentIndicator(
                       lineHeight: 8.0,
-                      percent: 0.7,
+                      percent: porcentagemPassos,
                       linearStrokeCap: LinearStrokeCap.roundAll,
                       backgroundColor:
                           Theme.of(context).colorScheme.secondary.withAlpha(30),
@@ -114,13 +179,6 @@ class _DashBoardState extends State<Dashboard> {
                         fontFamily: 'Bebas',
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      'Caminhou durante 13000 minutos hoje',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontSize: 16,
                       ),
                     ),
                   ],
@@ -148,7 +206,7 @@ class _DashBoardState extends State<Dashboard> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                  text: '9999',
+                                  text: distanciaString,
                                   style: TextStyle(
                                     fontSize: 20,
                                     color:
@@ -169,7 +227,6 @@ class _DashBoardState extends State<Dashboard> {
                     ),
                   ),
                   Expanded(
-                    flex: 3,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -184,7 +241,7 @@ class _DashBoardState extends State<Dashboard> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: '2',
+                                text: caloriasString,
                                 style: TextStyle(
                                   fontSize: 20,
                                   color:
@@ -194,42 +251,6 @@ class _DashBoardState extends State<Dashboard> {
                               ),
                               const TextSpan(
                                 text: ' CAL',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'BATIMENTO CARDIACO',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                  text: '300',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              const TextSpan(
-                                text: ' BPM',
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontWeight: FontWeight.bold,
@@ -268,9 +289,9 @@ class _DashBoardState extends State<Dashboard> {
                       const Padding(
                         padding: EdgeInsets.only(right: 15),
                       ),
-                      const Text(
-                        '2 Calorias',
-                        style: TextStyle(
+                      Text(
+                        caloriasString,
+                        style: const TextStyle(
                           color: Colors.orange,
                           fontWeight: FontWeight.bold,
                         ),
@@ -288,29 +309,9 @@ class _DashBoardState extends State<Dashboard> {
                   scrollDirection: Axis.horizontal,
                   children: <Widget>[
                     StatCard(
-                      title: ' Carboidratos',
-                      alcance: 200.0,
-                      total: 350.0,
-                      color: Colors.orange,
-                      image: Image.asset(
-                        'assets/img/bolt.png',
-                        width: 20,
-                      ),
-                    ),
-                    StatCard(
-                      title: ' Proteinas',
-                      alcance: 50.0,
-                      total: 150.0,
-                      color: Theme.of(context).primaryColor,
-                      image: Image.asset(
-                        'assets/img/fish.png',
-                        width: 20,
-                      ),
-                    ),
-                    StatCard(
                       title: ' Calorias',
-                      alcance: 3000.0,
-                      total: 2000.0,
+                      alcance: calorias.roundToDouble(),
+                      total: 3000.0,
                       color: Colors.green,
                       image: Image.asset(
                         'assets/img/sausage.png',
