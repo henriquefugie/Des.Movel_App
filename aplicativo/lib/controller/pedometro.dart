@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -10,10 +8,12 @@ String formatDate(DateTime d) {
 }
 
 void main() {
-  runApp(Pedometro());
+  runApp(const Pedometro());
 }
 
 class Pedometro extends StatefulWidget {
+  const Pedometro({super.key});
+
   @override
   _PedometroState createState() => _PedometroState();
 }
@@ -44,15 +44,12 @@ class _PedometroState extends State<Pedometro> {
   }
 
   void onPedestrianStatusError(error) {
-    print('onPedestrianStatusError: $error');
     setState(() {
       _status = 'Pedestrian Status not available';
     });
-    print(_status);
   }
 
   void onStepCountError(error) {
-    print('onStepCountError: $error');
     setState(() {
       _steps = 'Step Count not available';
     });
@@ -81,20 +78,20 @@ class _PedometroState extends State<Pedometro> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
+              const Text(
                 'Steps taken:',
                 style: TextStyle(fontSize: 30),
               ),
               Text(
                 _steps,
-                style: TextStyle(fontSize: 60),
+                style: const TextStyle(fontSize: 60),
               ),
-              Divider(
+              const Divider(
                 height: 100,
                 thickness: 0,
                 color: Colors.white,
               ),
-              Text(
+              const Text(
                 'Pedestrian status:',
                 style: TextStyle(fontSize: 30),
               ),
@@ -110,8 +107,8 @@ class _PedometroState extends State<Pedometro> {
                 child: Text(
                   _status,
                   style: _status == 'walking' || _status == 'stopped'
-                      ? TextStyle(fontSize: 30)
-                      : TextStyle(fontSize: 20, color: Colors.red),
+                      ? const TextStyle(fontSize: 30)
+                      : const TextStyle(fontSize: 20, color: Colors.red),
                 ),
               )
             ],

@@ -13,10 +13,7 @@ import 'firebase_options.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
-createUser({email, password}) async {
-  UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-      email: email, password: password);
-}
+createUser({email, password}) async {}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

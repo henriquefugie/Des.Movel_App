@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:ffi';
 
-import 'package:aplicativo/model/user_manager.dart';
 import 'package:aplicativo/model/usuario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,7 +34,6 @@ Future<int>? loadCounter() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final User currentUser = auth.currentUser!;
   (currentUser.uid);
-  final docUser = firestore.collection('users').doc(currentUser.uid);
   firestore
       .collection('users')
       .doc(currentUser.uid)

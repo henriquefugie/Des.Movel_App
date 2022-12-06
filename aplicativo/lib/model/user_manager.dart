@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:aplicativo/controller/firebase_errors.dart';
 import 'package:aplicativo/model/usuario.dart';
-import 'package:aplicativo/pages/logout/logout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,7 +43,6 @@ class UserManager extends ChangeNotifier {
   }
 
   Future<void> loadCurrentUser({User? user}) async {
-    final prefs = await SharedPreferences.getInstance();
     final User currentUser = user ?? auth.currentUser!;
     firestore
         .collection('users')

@@ -1,16 +1,14 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class Splash1 extends StatefulWidget {
+  const Splash1({super.key});
+
   @override
   _Splash1State createState() => _Splash1State();
 }
@@ -53,6 +51,7 @@ class _Splash1State extends State<Splash1> {
   }
 
   //constroe a tela do splash
+  @override
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).primaryColor,
